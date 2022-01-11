@@ -5,10 +5,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -80,7 +77,10 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            String aValueCaseInsensitive = aValue.toLowerCase();
+            String valueCaseInsensitive = value.toLowerCase();
+
+            if (aValueCaseInsensitive.contains(valueCaseInsensitive)) {
                 jobs.add(row);
             }
         }
@@ -102,14 +102,17 @@ public class JobData {
         // TODO - implement this method
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
-        for (HashMap<String, String> row : allJobs) {
+        for (HashMap<String, String> jobsRow : allJobs) {
 
-            for (String entry : row.values()) {
-                if (entry.toLowerCase().contains(value.toLowerCase())) {
-                    if (!jobs.contains(value)) {
-                        jobs.add(row);
-                        break;
-                    }
+            for (Map.Entry<String, String> jobColumn : jobsRow.entrySet()) {
+
+                String jobColumnValue = jobColumn.getValue();
+                String jobColumnValueCaseInsensitive = jobColumnValue.toLowerCase();
+                String valueCaseInsensitive = value.toLowerCase();
+
+                if (jobColumnValueCaseInsensitive.contains(valueCaseInsensitive)) {
+                    jobs.add(jobsRow);
+                    break;
                 }
             }
         }
